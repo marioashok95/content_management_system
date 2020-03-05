@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<p class="lead text-center">
+				<p class="lead text-center m-2">
 				Theme  by Mario Ashok &copy; <?php
 				echo date("Y"); 
 				?>

@@ -5,3 +5,8 @@ body{
 a{
 	color: #fff !important;
 }
+
+.cat_title{
+	font-family: helvetica;
+	color:red !important;
+}
