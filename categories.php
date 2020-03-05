@@ -1,6 +1,60 @@
 <?php require "includes/partials/_header.php" ?>
+<?php require "includes/db.php"; ?>
+<?php require "includes/utilities/sessions.php"; ?>
+
 
 <?php require "includes/partials/_navbar.php" ?>
+
+<?php
+
+
+if(isset($_POST['category_btn']))
+{
+$category_title = htmlspecialchars($_POST['title']);
+$author='admin';
+$date = date("Y-m-d");
+
+if(empty($category_title))
+{
+	$_SESSION['successMessage']='<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Field cannot be empty</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>';
+	header("Location:categories.php");
+
+}else if(strlen($category_title)<3)
+{
+	$_SESSION['successMessage']='<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Field must be between 4 and 100 characters </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>';
+	header("Location:categories.php");
+}else{
+	$sql="INSERT INTO category(title,author,date_posted) VALUES(:a,:b,:c)";
+$insert_category = $connection->prepare($sql);
+$result=$insert_category->execute(array(':a'=>$category_title,':b'=>$author,':c'=>$date));
+
+if($result)
+{
+	$_SESSION['successMessage']='<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Record added</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>';
+	header("Location:categories.php");
+}
+
+}
+
+
+}
+
+?>
 
 <header class="bg-dark text-white py-3">
 	<div class="container">
@@ -18,6 +72,24 @@
 <section class="container py-2 mb-4">
 	<div class="row">
 		<div class="offset-md-1 col-lg-10" style="min-height: 400px;">
+
+			<?php echo errorMessage(); ?>
+
+			<?php
+
+			if(isset($_SESSION['successMessage']))
+	{
+		echo $_SESSION['successMessage'];
+	}
+
+			?>
+			
+			<?php
+			if(isset($result))
+			{
+				echo $result;
+			}
+			?>
 			<form action="categories.php" method="post">
 				
 				<div class="card bg-danger text-dark mb-3">
