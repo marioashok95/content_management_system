@@ -1,5 +1,6 @@
 <?php require "includes/partials/_header.php" ?>
 
+<?php require "includes/partials/_navbar.php" ?>
 
 
 
